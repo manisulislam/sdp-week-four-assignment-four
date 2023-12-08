@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 class="text-center mt-5 mb-5">Welcome to show task page...</h1>
+<div class="container row gap-3 m-5">
+    {% for single in data %}
+    <div class="card col-lg-3 col-sm-12" style="width: 18rem;">
+        <div class="card-body">
+          <h5 class="card-title">{{single.id}}</h5>
+          <h5 class="card-title">{{single.task_title}}</h5>
+          <h6 class="card-subtitle mb-2 text-body-secondary">{{single.task_assign_date}}</h6>
+          <p class="card-text">{{single.task_description | truncatewords:10}}</p>
+          <p>
+            category: {% for item in single.category.all %}
+            <span>{{item.category_name}},</span>
+            {% endfor %}
+          </p>
+          
+          
+          {% if single.is_completed %}
+          <h3>Completed</h3>
+          {% else %}
+          <div>
+            <a href="{% url 'edit_task' single.id %}">
+              <button type="button" class="btn btn-outline-primary">Edit</button>
+            </a>
+            <a href="{% url 'delete_task' single.id %}">
+              <button type="button" class="btn btn-outline-primary">Delete</button>
+            </a>
+          </div>
+
+          {% endif %}
+        </div>
+      </div>
+    {% endfor %}
+</div>
+
+{% endblock %}
